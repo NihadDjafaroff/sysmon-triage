@@ -1,0 +1,26 @@
+title: Suspicious Persistence via Scheduled Task or Service Creation
+id: 3b6f1c2e-0003-4a9b-9c2d-example00003
+status: experimental
+description: >
+  Detects a new scheduled task or a new service being created from a
+  non-standard, user-writable directory — a common persistence technique.
+  Demonstrates an OR condition between two independent selections, which
+  Wazuh's XML schema cannot express in a single <rule>; this converts to
+  two sibling rules.
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  schtasks_selection:
+    Image|endswith: '\schtasks.exe'
+    CommandLine|contains: '/create'
+  service_selection:
+    Image|endswith: '\sc.exe'
+    CommandLine|contains: 'create'
+  condition: schtasks_selection or service_selection
+level: medium
+falsepositives:
+  - Legitimate system administration via scheduled tasks or services
+tags:
+  - attack.persistence
+  - attack.t1053.005

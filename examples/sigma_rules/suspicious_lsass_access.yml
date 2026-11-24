@@ -1,0 +1,22 @@
+title: Suspicious Access to LSASS Memory
+id: 3b6f1c2e-0002-4a9b-9c2d-example00002
+status: experimental
+description: >
+  Detects a process opening a handle to lsass.exe, a common technique for
+  dumping credentials from memory, while excluding the Windows Error
+  Reporting process which can legitimately touch lsass.exe after a crash.
+logsource:
+  category: process_access
+  product: windows
+detection:
+  selection:
+    TargetImage|endswith: '\lsass.exe'
+  filter:
+    Image|endswith: '\werfault.exe'
+  condition: selection and not filter
+level: critical
+falsepositives:
+  - Legitimate EDR or backup software that reads process memory
+tags:
+  - attack.credential_access
+  - attack.t1003.001

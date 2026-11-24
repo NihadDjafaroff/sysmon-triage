@@ -1,0 +1,24 @@
+title: Rundll32 Executed With Uncommon Export Function Names
+id: 3b6f1c2e-0004-4a9b-9c2d-example00004
+status: experimental
+description: >
+  Detects rundll32.exe being used to invoke export functions commonly
+  abused to proxy execution of malicious code. Demonstrates a list-style
+  (OR-of-AND) selection: each list item is its own set of AND-ed field
+  conditions.
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    - Image|endswith: '\rundll32.exe'
+      CommandLine|contains: 'JSRunAction'
+    - Image|endswith: '\rundll32.exe'
+      CommandLine|contains: 'Control_RunDLL'
+  condition: selection
+level: medium
+falsepositives:
+  - Some legitimate control panel applets use Control_RunDLL
+tags:
+  - attack.defense_evasion
+  - attack.t1218.011

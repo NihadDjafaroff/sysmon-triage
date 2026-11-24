@@ -1,0 +1,24 @@
+title: Suspicious PowerShell Download Command
+id: 3b6f1c2e-0001-4a9b-9c2d-example00001
+status: experimental
+description: >
+  Detects PowerShell invoked with command-line flags commonly used to
+  download and execute remote content, a frequent initial-access/execution
+  pattern.
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\powershell.exe'
+    CommandLine|contains:
+      - 'DownloadString'
+      - 'Invoke-WebRequest'
+      - 'IEX'
+  condition: selection
+level: high
+falsepositives:
+  - Legitimate administrative or software-deployment scripts
+tags:
+  - attack.execution
+  - attack.t1059.001
