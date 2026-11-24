@@ -9,7 +9,7 @@ detection rules **directly against Sysmon-sourced log events**, rather than comp
 a SIEM's static rule config. Point it at a directory of Sigma rules and a JSONL log file, and it
 tells you which rules fired on which events, with MITRE ATT&CK tags and severity included.
 
-This is the companion project to [`sigma2wazuh`](../sigma2wazuh) (same author): that project
+This is the companion project to [`sigma2wazuh`](https://github.com/NihadDjafaroff/sigma2wazuh) (same author): that project
 *compiles* Sigma rules into static Wazuh `local_rules.xml` config; this one *evaluates* the same
 Sigma condition logic live, one event at a time. The two share the same four example Sigma rules
 and the same supported subset of Sigma's condition grammar, so you can see the identical
